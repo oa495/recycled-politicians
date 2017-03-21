@@ -19,140 +19,13 @@
    <div id="chart"></div>
   <script src="http://d3js.org/d3.v3.min.js"></script>
   <script>
-  var myjson = [
-     {
-        "Omayeli Arenyeka":{
-           "positions":[
-              {
-                 "years":"1993-2001",
-                 "position":"Senator of Abia"
-              },
-              {
-                 "years":"2001-2004",
-                 "position":"President"
-              }
-           ]
-        }
-     },
-     {
-        "Omayeli Arenyeka":{
-           "positions":[
-              {
-                 "years":"1993-2001",
-                 "position":"Senator of Abia"
-              },
-              {
-                 "years":"2001-2004",
-                 "position":"President"
-              }
-           ]
-        }
-     },
-     {
-        "Omayeli Arenyeka":{
-           "positions":[
-              {
-                 "years":"1993-2001",
-                 "position":"Senator of Abia"
-              },
-              {
-                 "years":"2001-2004",
-                 "position":"President"
-              }
-           ]
-        }
-     },
-     {
-        "Omayeli Arenyeka":{
-           "positions":[
-              {
-                 "years":"1993-2001",
-                 "position":"Senator of Abia"
-              },
-              {
-                 "years":"2001-2004",
-                 "position":"President"
-              }
-           ]
-        }
-     },
-     {
-        "Omayeli Arenyeka":{
-           "positions":[
-              {
-                 "years":"1993-2001",
-                 "position":"Senator of Abia"
-              },
-              {
-                 "years":"2001-2004",
-                 "position":"President"
-              }
-           ]
-        }
-     },
-     {
-        "Omayeli Arenyeka":{
-           "positions":[
-              {
-                 "years":"1993-2001",
-                 "position":"Senator of Abia"
-              },
-              {
-                 "years":"2001-2004",
-                 "position":"President"
-              }
-           ]
-        }
-     },
-     {
-        "Omayeli Arenyeka":{
-           "positions":[
-              {
-                 "years":"1993-2001",
-                 "position":"Senator of Abia"
-              },
-              {
-                 "years":"2001-2004",
-                 "position":"President"
-              }
-           ]
-        }
-     }
-  ];
 
-  console.log(myjson);
-  /*
-
-
-  var parseDate = d3.time.format("%Y").parse;
-
-  var x = d3.time.scale()
-    .range([0, width]);
-
-  var y = d3.scale.linear()
-    .range([height, 0]);
-
-  var xAxis = d3.svg.axis()
-    .scale(x)
-    .orient("bottom");
-
-  var yAxis = d3.svg.axis()
-    .scale(y)
-    .orient("left");
-
-  // add the graph canvas to the body of the webpage
-  var svg = d3.select("body").append("svg")
-      .attr("width", width + margin.left + margin.right)
-      .attr("height", height + margin.top + margin.bottom)
-    .append("g")
-      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-  */
   var chartDiv = document.getElementById("chart");
 
   // create an svg container
   var width = chartDiv.clientWidth;
   var height = chartDiv.clientHeight;
-  var padding = 50;
+  var padding = 100;
         
   // create an svg container
   var vis = d3.select("#chart").
@@ -169,33 +42,92 @@
     .domain([minyear, maxyear])    
     .range([padding, width - padding]);   // map these the the chart width = total width minus padding at both sides 
 
-  // define the y scale  (vertical)
-  var yScale = d3.scale.linear()
-    .domain([0, 100])    // values between 0 and 100
+  var yScale = d3.scale.ordinal()
     .range([height - padding, padding]);   // map these to the chart height, less padding.  
     //REMEMBER: y axis range has the bigger number first because the y value of zero is at the top of chart and increases as you go down.
-      
+  
   // define the y axis
   var yAxis = d3.svg.axis()
-      .orient("left")
-      .scale(yScale);
+    .orient("left")
+    .scale(yScale);
 
   // define the y axis
   var xAxis = d3.svg.axis()
-      .orient("bottom")
-      .scale(xScale)
-      .tickFormat(d3.time.format("%Y")); // <-- format
-      
-  // draw y axis with labels and move in from the size by the amount of padding
-  vis.append("g")
-      .attr("transform", "translate("+padding+",0)")
-      .call(yAxis);
+    .orient("bottom")
+    .scale(xScale)
+    .tickFormat(d3.time.format("%Y")); // <-- format
 
-  // draw x axis with labels and move to the bottom of the chart area
-  vis.append("g")
+
+  d3.json("data/politicians.json", function(error, data) {
+    if (error) throw error;
+
+    yScale.domain(data.map(function(d) { 
+      console.log(d.name);
+      return d.name; 
+    }));
+
+    // draw x axis with labels and move to the bottom of the chart area
+    vis.append("g")
       .attr("class", "xaxis")   // give it a class so it can be used to select only xaxis labels  below
       .attr("transform", "translate(0," + (height - padding) + ")")
       .call(xAxis);
+
+    // draw y axis with labels and move in from the size by the amount of padding
+    vis.append("g")
+      .attr("class", "yaxis")
+      .attr("transform", "translate(" + padding + ",0)")
+      .call(yAxis)
+      .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", -36)
+      .attr("x", -36)
+      .attr("dy", ".71em")
+      .style("text-anchor", "end")
+      .text("Politicians");
+
+    /*var positions = data.positions;
+    console.log('positions:', positions);
+    positions.forEach(function(position) {
+      var title = position.title;
+      var years = position.years.split['-'];
+      var start = parseInt(years[0]);
+      var end = parseInt(years[1]);
+      console.log('start-end', start, '-', end);
+    });*/
+    
+    //y.domain([0, d3.max(data, function(d) { return d.Salary; })]);
+
+    /*svg.append("g")
+        .attr("class", "x axis")
+        .attr("transform", "translate(0," + height + ")")
+        .call(xAxis);
+
+    svg.append("g")
+        .attr("class", "y axis")
+        .call(yAxis)
+      .append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("y", -36)
+        .attr("dy", ".71em")
+        .style("text-anchor", "end")
+        .text("Politicians");
+
+    svg.selectAll(".bar")
+        .data(data)
+      .enter().append("rect")
+        .attr("class", "bar")
+        .attr("x", function(d) { return x(d.Employee); })
+        .attr("width", x.rangeBand())
+        .attr("y", function(d) { return y(d.Salary); })
+        .attr("height", function(d) { return height - y(d.Salary); })
+        .on('mouseover', tip.show)
+        .on('mouseout', tip.hide);*/
+  });
+
+  /*function type(d) {
+    d.Salary = +d.Salary;
+    return d;
+  }*/
 
   </script>
 </body>
