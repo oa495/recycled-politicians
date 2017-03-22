@@ -64,7 +64,7 @@
     yScale.domain(data.map(function(d) { 
       console.log(d.name);
       return d.name; 
-    }));
+    })).rangeRoundBands([0, height - padding]);
 
     // draw x axis with labels and move to the bottom of the chart area
     vis.append("g")
@@ -85,7 +85,14 @@
       .style("text-anchor", "end")
       .text("Politicians");
 
-    /*var positions = data.positions;
+    /*vis.append('line')
+      .style('stroke', 'black')
+      .attr('x1')
+      .attr('y1')
+      .attr('x2')
+      .attr('y2')
+
+    var positions = data.positions;
     console.log('positions:', positions);
     positions.forEach(function(position) {
       var title = position.title;
@@ -93,25 +100,8 @@
       var start = parseInt(years[0]);
       var end = parseInt(years[1]);
       console.log('start-end', start, '-', end);
-    });*/
+    });
     
-    //y.domain([0, d3.max(data, function(d) { return d.Salary; })]);
-
-    /*svg.append("g")
-        .attr("class", "x axis")
-        .attr("transform", "translate(0," + height + ")")
-        .call(xAxis);
-
-    svg.append("g")
-        .attr("class", "y axis")
-        .call(yAxis)
-      .append("text")
-        .attr("transform", "rotate(-90)")
-        .attr("y", -36)
-        .attr("dy", ".71em")
-        .style("text-anchor", "end")
-        .text("Politicians");
-
     svg.selectAll(".bar")
         .data(data)
       .enter().append("rect")
@@ -123,12 +113,6 @@
         .on('mouseover', tip.show)
         .on('mouseout', tip.hide);*/
   });
-
-  /*function type(d) {
-    d.Salary = +d.Salary;
-    return d;
-  }*/
-
   </script>
 </body>
 </html>
