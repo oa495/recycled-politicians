@@ -1,0 +1,101 @@
+var data = [{
+  "name": "Omayeli Arenyeka",
+  "positions": [{
+    "start": 1993,
+    "end": 2002,
+    "title": "Senator of Abia"
+  }, {
+    "start": 1993,
+    "end": 2002,
+    "title": "President"
+  }]
+}, {
+  "name": "John Cena",
+  "positions": [{
+    "start": 1993,
+    "end": 2002,
+    "title": "Senator of Abia"
+  }, {
+    "start": 2004,
+    "end": 2007,
+    "title": "President"
+  }]
+}];
+
+var width = 500,
+  height = 300,
+  padding = [10, 10, 30, 130];
+
+var color = d3.scale.category10();
+
+var vis = d3.select("body")
+  .append("svg")
+  .attr("width", width)
+  .attr("height", height);
+
+var parseDate = d3.time.format("%Y").parse;
+var maxyear = new Date("2017");
+var minyear = new Date("1980");
+
+var xScale = d3.time.scale()
+  .domain([minyear, maxyear])
+  .range([padding[3], width - padding[1]]);
+
+var yScale = d3.scale.ordinal()
+  .rangeBands([height - padding[2], padding[0]], 0.5)
+  .domain(data.map(function(d) {
+    return d.name;
+  })); // map these to the chart  height, less padding.  
+//REMEMBER: y axis range has the bigger number first because the y value of zero is at the top of chart and increases as you go down.
+
+// define the y axis
+var yAxis = d3.svg.axis()
+  .orient("left")
+  .scale(yScale);
+
+// define the y axis
+var xAxis = d3.svg.axis()
+  .orient("bottom")
+  .scale(xScale)
+  .tickFormat(d3.time.format("%Y")); // <-- format
+
+
+// draw x axis with labels and move to the bottom of the chart area
+vis.append("g")
+  .attr("class", "xaxis") // give it a class so it can be used to select only xaxis labels  below
+  .attr("transform", "translate(0," + (height - padding[2]) + ")")
+  .call(xAxis);
+
+// draw y axis with labels and move in from the size by the amount of padding
+vis.append("g")
+  .attr("class", "yaxis")
+  .attr("transform", "translate(" + padding[3] + ",0)")
+  .call(yAxis);
+
+var groups = vis.selectAll("foo")
+  .data(data)
+  .enter()
+  .append("g")
+  .attr("transform", function(d) {
+    return "translate(0," + (padding[2] + yScale(d.name)) + ")";
+  }).style("stroke", (d, i) => color(i));
+
+var people = groups.selectAll("foo")
+  .data(d => d.positions)
+  .enter()
+  .append("line");
+
+var line = people.attr({
+  'x1': function(d) {
+    return xScale(parseDate(d.start.toString()));
+  },
+  'x2': function(d) {
+    return xScale(parseDate(d.end.toString()));
+  }
+}).attr("stroke-width", 2);
+
+.xaxis line, .yaxis line,
+.xaxis path, .yaxis path {
+  fill: none;
+  stroke: black;
+}

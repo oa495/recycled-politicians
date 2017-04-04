@@ -3,11 +3,13 @@
       "name": "Omayeli Arenyeka",
       "positions":[
          {
-            "years":"1993-2001",
+            "start": 1993,
+            "end": 2002,
             "title":"Senator of Abia"
          },
          {
-            "years":"2001-2004",
+            "start": 1993,
+            "end": 2002,
             "title":"President"
          }
       ]
@@ -16,11 +18,13 @@
       "name": "John Cena",
       "positions":[
          {
-            "years":"1993-2001",
+            "start": 1993,
+            "end": 2002,
             "title":"Senator of Abia"
          },
          {
-            "years":"2001-2004",
+            "start": 1993,
+            "end": 2002,
             "title":"President"
          }
       ]
@@ -29,11 +33,13 @@
       "name": "ASAP Rocky",
       "positions":[
          {
-            "years":"1993-2001",
+            "start": 1993,
+            "end": 2002,
             "title":"Senator of Abia"
          },
          {
-            "years":"2001-2004",
+            "start": 1993,
+            "end": 2002,
             "title":"President"
          }
       ]
@@ -42,11 +48,13 @@
       "name": "Clint Hill",
       "positions":[
          {
-            "years":"1993-2001",
+            "start": 1993,
+            "end": 2002,
             "title":"Senator of Abia"
          },
          {
-            "years":"2001-2004",
+            "start": 1993,
+            "end": 2002,
             "title":"President"
          }
       ]
@@ -55,11 +63,13 @@
       "name": "Rocky Rockerson",
       "positions":[
          {
-            "years":"1989-1995",
+            "start": 1993,
+            "end": 2002,
             "title":"Senator of Abia"
          },
          {
-            "years":"2010-2017",
+            "start": 1993,
+            "end": 2002,
             "title":"President"
          }
       ]
